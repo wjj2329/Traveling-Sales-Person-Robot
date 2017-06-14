@@ -1,6 +1,6 @@
-package RobotUtils;
+package RobotFunctions;
 
-import TelnetUtils.Telnet;
+import TelnetFunctions.Telnet;
 
 import java.io.IOException;
 

@@ -1,5 +1,5 @@
-import RobotUtils.Robot;
-import TelnetUtils.Telnet;
+import RobotFunctions.Robot;
+import TelnetFunctions.Telnet;
 
 import java.io.IOException;
 
