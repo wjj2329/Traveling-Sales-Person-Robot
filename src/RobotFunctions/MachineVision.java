@@ -80,7 +80,7 @@ public class MachineVision
      */
     private double acceptanceProbability(double costCurrent, double costNeighbor, double temperature)
     {
-        return Math.pow(Math.E, ((costCurrent - costNeighbor)/temperature));
+        return Math.pow(Math.E, ((costCurrent - costNeighbor) / temperature));
     }
 
     /**
