@@ -3,6 +3,8 @@ package RobotFunctions;
 import Map.Node;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 /**
  * Created by Alex on 6/14/17.
@@ -18,9 +20,67 @@ public class MachineVision
      *  implemented as arUco cards.
      * @return path
      */
-    public ArrayList<Node> computeTSP()
+    public ArrayList<Node> computeTSP(ArrayList<Node> allVisibleNodes)
     {
-        return null;
+        ArrayList<Node> currentSolution = new ArrayList<>();
+        Collections.shuffle(currentSolution);
+
+        double temperature = 1.0;
+        double min = 0.0001;
+        double alpha = 0.9;
+        while (temperature > min)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                double currentCost = calculateCost(currentSolution);
+                ArrayList<Node> neighbor = calculateNeighbor(currentSolution);
+                double neighborCost = calculateCost(neighbor);
+                if (neighborCost < currentCost
+                        || acceptanceProbability(currentCost, neighborCost, temperature) > Math.random())
+                {
+                    currentSolution = neighbor;
+                    // how correct is that Math.random() anyway?
+                }
+            }
+            temperature *= alpha;
+        }
+        return currentSolution;
+    }
+
+    /**
+     * Returns cost of path, based on distance.
+     */
+    private double calculateCost(ArrayList<Node> path)
+    {
+        double sol = 0.0;
+        for (int i = 0; i < path.size(); i++)
+        {
+            if (i < path.size() - 1)
+            {
+                sol += RobotUtils.distance(path.get(i).getLocation(), path.get(i + 1).getLocation());
+            }
+        }
+        return sol;
+    }
+
+    /**
+     * Switches two nodes in the current solution path
+     */
+    private ArrayList<Node> calculateNeighbor(ArrayList<Node> current)
+    {
+        Random random = new Random();
+        int position = random.nextInt(current.size());
+        int position2 = random.nextInt(current.size());
+        Collections.swap(current, position, position2);
+        return current;
+    }
+
+    /**
+     * Returns the acceptance probability
+     */
+    private double acceptanceProbability(double costCurrent, double costNeighbor, double temperature)
+    {
+        return Math.pow(Math.E, ((costCurrent - costNeighbor)/temperature));
     }
 
     /**
