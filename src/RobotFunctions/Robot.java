@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class Robot
 {
 
-    private ArrayList<City> computedPathRobot1;
-    private ArrayList<City> computedPathRobot2;
+    private ArrayList<Node> computedPathRobot1;
+    private ArrayList<Node> computedPathRobot2;
     private MachineVision vision;
     private TerrainMap map;
     private Coordinate currentLocation;
@@ -50,6 +50,11 @@ public class Robot
             }
         }
     }
+    public void calculatePath()
+    {
+        computedPathRobot1=vision.computePrettyTSP();//use the corect one.
+    }
+
 
     /**
      * Rotation of the robot
@@ -127,25 +132,7 @@ public class Robot
     }
 
     //<editor-fold desc="Getters and Setters!">
-    public ArrayList<City> getComputedPathRobot1()
-    {
-        return computedPathRobot1;
-    }
 
-    public void setComputedPathRobot1(ArrayList<City> computedPathRobot1)
-    {
-        this.computedPathRobot1 = computedPathRobot1;
-    }
-
-    public ArrayList<City> getComputedPathRobot2()
-    {
-        return computedPathRobot2;
-    }
-
-    public void setComputedPathRobot2(ArrayList<City> computedPathRobot2)
-    {
-        this.computedPathRobot2 = computedPathRobot2;
-    }
 
     public MachineVision getVision()
     {
