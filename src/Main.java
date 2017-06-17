@@ -1,3 +1,4 @@
+import RobotFunctions.Decoder;
 import RobotFunctions.Robot;
 import TelnetFunctions.Telnet;
 
@@ -19,5 +20,12 @@ public class Main
         System.out.println("Initializing program and robot...");
         Telnet telnet = new Telnet();
         Robot robot = new Robot();
+        Decoder.updateTerrainField(robot, telnet.sendWhere());
+        while(true)
+        {
+
+            robot.
+            Decoder.updateRobot(robot,telnet.sendWhere());
+        }
     }
 }
