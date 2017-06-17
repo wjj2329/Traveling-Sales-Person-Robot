@@ -98,5 +98,29 @@ public class City
                 '}';
     }
 
-    //</editor-fold>
+    /**
+     * We use this equals for the .contains() method with an
+     *  object of type City
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        City city = (City) o;
+
+        if (id != city.id) return false;
+        return location != null ? location.equals(city.location) : city.location == null;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = location != null ? location.hashCode() : 0;
+        result = 31 * result + id;
+        return result;
+    }
+
+//</editor-fold>
 }

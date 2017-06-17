@@ -25,12 +25,13 @@ public class Robot
     private TerrainMap map;
     private Coordinate currentLocation;
     private Coordinate orientation;
+    private ArrayList<City> myCities;
     /**
      * Default public constructor
      */
     public Robot()
     {
-
+        myCities = new ArrayList<>();
     }
 
     public void calculateTerrainMap(ArrayList<City> cities)
@@ -48,11 +49,12 @@ public class Robot
                     // Set type to obstacle here if we end up adding obstacles
                 }
             }
+            myCities.add(currentCity); // or just use addAll
         }
     }
     public void calculatePath()
     {
-        computedPathRobot1=vision.computePrettyTSP();//use the corect one.
+        computedPathRobot1 = vision.computeBasicPath(myCities, map, this); // use the correct one.
     }
 
 
@@ -70,7 +72,7 @@ public class Robot
         {
             currentAngle += 360;
         }
-        Coordinate c = RobotUtils.convertFromPixeltoNode(currentLocation);
+        Coordinate c = RobotUtils.convertFromPixelToNode(currentLocation);
         // We will need a different ending condition, OR to set the last arUco card in the path to GOAL
         if (map.getMyMap()[(int)c.getX()][(int)c.getY()].getType()== RobotUtils.TYPE.GOAL)
         {

@@ -62,7 +62,6 @@ public class Decoder
         }
         robot.calculateTerrainMap(cities);
         updateRobot(robot,json);
-
     }
 
     /**

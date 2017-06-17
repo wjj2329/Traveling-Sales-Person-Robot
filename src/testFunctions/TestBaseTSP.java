@@ -44,8 +44,17 @@ public class TestBaseTSP extends TestCase
         generateRandomCities();
         ArrayList<City> resultantPath = machineVision.computeTSP(cities);
         assertNotNull(resultantPath);
-        assertEquals(resultantPath.size(), 20);
+        System.out.println("Original Path: " + cities.toString());
+        System.out.println("Resultant Path: " + resultantPath.toString());
+        assertEquals(20, resultantPath.size());
         printPath(resultantPath);
+    }
+
+    public void testGreedy() throws Exception
+    {
+        generateRandomCities();
+        ArrayList<City> greedyResult = machineVision.greedySolution(cities);
+        assertEquals(20, greedyResult.size());
     }
 
     /**
@@ -58,6 +67,11 @@ public class TestBaseTSP extends TestCase
         {
             City city = new City(new Coordinate(random.nextInt(RobotUtils.gridDimensionX),
                     random.nextInt(RobotUtils.gridDimensionY)));
+            while (cities.contains(city))
+            {
+                city = new City(new Coordinate(random.nextInt(RobotUtils.gridDimensionX),
+                        random.nextInt(RobotUtils.gridDimensionY)));
+            }
             cities.add(city);
         }
     }

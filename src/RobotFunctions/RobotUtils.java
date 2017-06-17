@@ -2,6 +2,7 @@ package RobotFunctions;
 
 import Map.City;
 import Map.Coordinate;
+import Map.Node;
 
 /**
  * Created by Alex on 6/14/17.
@@ -45,11 +46,11 @@ public class RobotUtils
         double y = orientation.getY();
         return Math.acos(x) * sign(y);
     }
-    public static Coordinate convertFromPixeltoNode(Coordinate c)
+    public static Coordinate convertFromPixelToNode(Coordinate c)
     {
         return new Coordinate(Math.round(c.getX()/sizeoftiles), Math.round(c.getY()/sizeoftiles));
     }
-    public static double calculateAngle(City calc, City next)
+    public static double calculateAngle(Node calc, Node next)
     {
         double xdiff=calc.getLocation().getX()-next.getLocation().getX();
         double ydiff=calc.getLocation().getY()-next.getLocation().getY();
@@ -87,11 +88,5 @@ public class RobotUtils
         }
         System.out.println("You done goofed, son.");
         return -1;
-    }
-
-    public static Coordinate frontOfRobot(Coordinate center, Coordinate frontCornerLeft, Coordinate frontCornerRight)
-    {
-        int midpoint = (int) Math.round((frontCornerLeft.getX() + frontCornerRight.getX()) / 2);
-        return new Coordinate(midpoint, center.getY());
     }
 }
