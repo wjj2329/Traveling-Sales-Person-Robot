@@ -61,6 +61,12 @@ public class City
         this.type = type;
     }
 
+    public City(Coordinate gridLocation)
+    {
+        // Might need to change this
+        this.location = gridLocation;
+    }
+
     //<editor-fold desc="Getters and Setters!">
     public Coordinate getLocation()
     {
@@ -80,6 +86,16 @@ public class City
     public void setId(int id)
     {
         this.id = id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "City{" +
+                "location=" + location +
+                ", id=" + id +
+                ", type='" + type + '\'' +
+                '}';
     }
 
     //</editor-fold>

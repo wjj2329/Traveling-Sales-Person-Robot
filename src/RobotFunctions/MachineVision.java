@@ -1,5 +1,6 @@
 package RobotFunctions;
 
+import Map.City;
 import Map.Node;
 
 import java.util.ArrayList;
@@ -18,11 +19,13 @@ public class MachineVision
      * Each will use a simulated annealing approach
      *  to compute a path to each of the "cities",
      *  implemented as arUco cards.
+     *
+     *  currentSolution = all the cities, aka arUco cards
      * @return path
      */
-    public ArrayList<Node> computeTSP(ArrayList<Node> allVisibleNodes)
+    public ArrayList<City> computeTSP(ArrayList<City> currentSolution)
     {
-        ArrayList<Node> currentSolution = new ArrayList<>();
+        //ArrayList<Node> currentSolution = new ArrayList<>();
         Collections.shuffle(currentSolution);
 
         double temperature = 1.0;
@@ -33,7 +36,7 @@ public class MachineVision
             for (int i = 0; i < 100; i++)
             {
                 double currentCost = calculateCost(currentSolution);
-                ArrayList<Node> neighbor = calculateNeighbor(currentSolution);
+                ArrayList<City> neighbor = calculateNeighbor(currentSolution);
                 double neighborCost = calculateCost(neighbor);
                 if (neighborCost < currentCost
                         || acceptanceProbability(currentCost, neighborCost, temperature) > Math.random())
@@ -50,7 +53,7 @@ public class MachineVision
     /**
      * Returns cost of path, based on distance.
      */
-    private double calculateCost(ArrayList<Node> path)
+    private double calculateCost(ArrayList<City> path)
     {
         double sol = 0.0;
         for (int i = 0; i < path.size(); i++)
@@ -66,7 +69,7 @@ public class MachineVision
     /**
      * Switches two nodes in the current solution path
      */
-    private ArrayList<Node> calculateNeighbor(ArrayList<Node> current)
+    private ArrayList<City> calculateNeighbor(ArrayList<City> current)
     {
         Random random = new Random();
         int position = random.nextInt(current.size());
@@ -93,7 +96,7 @@ public class MachineVision
      *  DONUTS!
      * @return path
      */
-    public ArrayList<Node> computePrettyTSP()
+    public ArrayList<City> computePrettyTSP()
     {
         return null;
     }
