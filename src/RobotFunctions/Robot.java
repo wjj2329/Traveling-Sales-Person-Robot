@@ -133,6 +133,15 @@ public class Robot
         }
     }
 
+    public boolean end()
+    {
+        if (currentLocation.equals(computedPathRobot1.get(computedPathRobot1.size() - 1).getLocation()))
+        {
+            return true;
+        }
+        return false;
+    }
+
     //<editor-fold desc="Getters and Setters!">
 
 

@@ -15,7 +15,8 @@ public class Main
      *  functions as the primary control of movement.
      * @param args TBA
      */
-    public static void main (String[] args) throws IOException, InterruptedException {
+    public static void main (String[] args) throws IOException, InterruptedException
+    {
         System.out.println("Initializing program and robot...");
         Telnet telnet = new Telnet();
         Robot robot = new Robot();
@@ -25,6 +26,10 @@ public class Main
         {
             Decoder.updateRobot(robot,telnet.sendWhere());
             robot.rotateMe(telnet);
+            if (robot.end())
+            {
+                telnet.sendSpeed(0, 0);
+            }
             telnet.sendSpeed(2,2);
         }
     }
