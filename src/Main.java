@@ -1,5 +1,6 @@
 import RobotFunctions.Decoder;
 import RobotFunctions.Robot;
+import RobotFunctions.RobotUtils;
 import TelnetFunctions.Telnet;
 
 import java.io.IOException;
@@ -26,15 +27,19 @@ public class Main
         {
             Decoder.updateRobot(robot,telnet.sendWhere());
             robot.rotateMe(telnet);
+            System.out.println("Robot's node coordinates: " +
+                    RobotUtils.convertFromPixelToNode(robot.getCurrentLocation()));
             if (robot.end())
             {
                 telnet.sendSpeed(0, 0);
                 return;
             }
+            //System.out.println("shouldIPause() = " + robot.shouldIPause());
             if (robot.shouldIPause())
             {
+                System.out.println("I pause");
                 telnet.sendSpeed(0, 0);
-                Thread.sleep(1000);
+                Thread.sleep(10000);
             }
             telnet.sendSpeed(2,2);
         }

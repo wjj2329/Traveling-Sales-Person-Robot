@@ -61,6 +61,15 @@ public class Node
             System.out.println(n.toString());
         }
     }
+
+    public void printDegreeMap()
+    {
+        System.out.println("printDegreeMap");
+        for (Integer key : degreeMap.keySet())
+        {
+            System.out.println("key=" + key + ", value=" + degreeMap.get(key));
+        }
+    }
     //<editor-fold desc="Equals/HashCode - Do NOT delete">
 
     @Override
@@ -132,6 +141,10 @@ public class Node
                 min = currentNumber;
             }
         }
+        System.out.println("Minimum degree is " + min);
+        System.out.println("How big is the degree map? " + degreeMap.size());
+        System.out.println("What's in the degree map? ");
+        printDegreeMap();
         return degreeMap.get(min);
     }
 

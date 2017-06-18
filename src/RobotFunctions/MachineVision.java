@@ -166,8 +166,8 @@ public class MachineVision
                 result.add(loc2);
             }
         }
-        System.out.println("path is " + result.toString());
         calculateDegrees(result);
+        //System.out.println("path is " + result.toString());
         print(rob, result);
         return result;
     }
@@ -346,7 +346,7 @@ public class MachineVision
             }
             System.out.println();
         }
-        System.exit(0);
+        //System.exit(0);
     }
     private void printMatchingLocations(ArrayList<Node> result, Node current)
     {

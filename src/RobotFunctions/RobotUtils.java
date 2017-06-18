@@ -10,7 +10,7 @@ import Map.Node;
  */
 public class RobotUtils
 {
-    public static int sizeoftiles=60; // was 50
+    public static int sizeoftiles=40; // was 60
     public static int gridDimensionX = 1960/sizeoftiles;
     public static int gridDimensionY = 1020/sizeoftiles;
     public static int marginoferror=25; // was 30

@@ -96,6 +96,7 @@ public class Decoder
             robot.setOrientation(new Coordinate(a, b));
             //robot.setCurrentLocation(new Coordinate((int) x, (int) y));
             robot.setCurrentLocation(currentCenter);
+            //robot.setCurrentLocation(RobotUtils.convertFromPixelToNode(robot.getCurrentLocation()));
         }
         catch(Exception e)
         {

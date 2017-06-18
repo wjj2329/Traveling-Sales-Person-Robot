@@ -138,11 +138,30 @@ public class Robot
 
     public boolean shouldIPause()
     {
-        for (int i = 0; i < computedPathRobot1.size(); i++)
+        int result = -1;
+        // Robot needs to be in node coordinates.
+        for (int i = 0; i < myCities.size(); i++)
         {
-            if (computedPathRobot1.get(i).getLocation().equals(currentLocation))
+            if (myCities.get(i).getLocation().equals(RobotUtils.convertFromPixelToNode(currentLocation)))
             {
-                computedPathRobot1.get(i).cleanseMyMap(i);
+                //computedPathRobot1.cleanseMyMap(i);
+                result = i;
+                for (int j = 0; j < computedPathRobot1.size(); j++)
+                {
+                    if (computedPathRobot1.get(j).getLocation().equals(myCities.get(i).getLocation()))
+                    {
+                        // I think that this is right
+                        if (computedPathRobot1.get(j).getDegreeMap().size() > 1)
+                        {
+//                            System.out.println("This is the map beforehand: ");
+//                            computedPathRobot1.get(j).printDegreeMap();
+//                            computedPathRobot1.get(j).cleanseMyMap(j);
+//                            System.out.println("This is the map afterwards: ");
+//                            computedPathRobot1.get(j).printDegreeMap();
+                        }
+                    }
+                }
+                //myCities.remove(result);
                 return true;
             }
         }
@@ -151,7 +170,8 @@ public class Robot
 
     public boolean end()
     {
-        if (currentLocation.equals(computedPathRobot1.get(computedPathRobot1.size() - 1).getLocation()))
+        if (RobotUtils.convertFromPixelToNode(currentLocation)
+                .equals(computedPathRobot1.get(computedPathRobot1.size() - 1).getLocation()))
         {
             return true;
         }
