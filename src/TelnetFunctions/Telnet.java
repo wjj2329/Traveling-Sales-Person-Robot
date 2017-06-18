@@ -28,6 +28,17 @@ public class Telnet
     {
 
     }
+    public void sendStuffToOtherRobot(String json) throws IOException {
+        pingSocket =new Socket("localhost", 8080);
+        myWriter =new PrintWriter(pingSocket.getOutputStream(), true);
+        myWriter.println(json);
+
+        //get stuff from myReader .readline()
+
+        pingSocket.close();
+        myWriter.close();
+
+    }
 
     /**
      * Sending the WHERE command in order to obtain the robot's current information
