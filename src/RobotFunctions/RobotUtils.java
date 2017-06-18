@@ -10,7 +10,7 @@ import Map.Node;
  */
 public class RobotUtils
 {
-    public static int sizeoftiles=40; // was 60
+    public static int sizeoftiles=60; // was 60
     public static int gridDimensionX = 1960/sizeoftiles;
     public static int gridDimensionY = 1020/sizeoftiles;
     public static int marginoferror=25; // was 30
@@ -54,8 +54,8 @@ public class RobotUtils
     {
         double xdiff=calc.getLocation().getX()-next.getLocation().getX();
         double ydiff=calc.getLocation().getY()-next.getLocation().getY();
-        System.out.println("xDiff is: " + xdiff);
-        System.out.println("yDiff is: " + ydiff);
+        //System.out.println("xDiff is: " + xdiff);
+        //System.out.println("yDiff is: " + ydiff);
         if(xdiff==1&&ydiff==0)
         {
             return 180;

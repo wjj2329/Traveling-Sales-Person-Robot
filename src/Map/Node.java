@@ -144,8 +144,14 @@ public class Node
         System.out.println("Minimum degree is " + min);
         System.out.println("How big is the degree map? " + degreeMap.size());
         System.out.println("What's in the degree map? ");
+        // return -1
         printDegreeMap();
-        return degreeMap.get(min);
+        double answer = Integer.MAX_VALUE;
+        if (min != Integer.MAX_VALUE)
+        {
+            answer = degreeMap.get(min);
+        }
+        return answer;
     }
 
     public void setDegree(int posInPath, double degree)

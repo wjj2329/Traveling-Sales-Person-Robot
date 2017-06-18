@@ -84,9 +84,10 @@ public class Robot
         }
         double angleINeedToBecome = map.getMyMap()[(int)c.getX()][(int)c.getY()].getDegree();
 
-        if(angleINeedToBecome == -1)
+        if(angleINeedToBecome == -1 || angleINeedToBecome == Integer.MAX_VALUE)
         {
-            t.sendSpeed(0, 0);
+            //t.sendSpeed(0, 0);
+            //Thread.sleep(3000);
             System.out.println("May have left path");
             return;
         }
@@ -104,6 +105,7 @@ public class Robot
         }
         if (angleICareAbout > RobotUtils.marginoferror)
         {
+            System.out.println("Robot is at " + angleICareAbout + ", and needs to become " + angleINeedToBecome);
             while (angleICareAbout > RobotUtils.innermarginofError)
             {
                 t.sendSpeed(2, -2);
@@ -153,15 +155,15 @@ public class Robot
                         // I think that this is right
                         if (computedPathRobot1.get(j).getDegreeMap().size() > 1)
                         {
-//                            System.out.println("This is the map beforehand: ");
-//                            computedPathRobot1.get(j).printDegreeMap();
-//                            computedPathRobot1.get(j).cleanseMyMap(j);
-//                            System.out.println("This is the map afterwards: ");
-//                            computedPathRobot1.get(j).printDegreeMap();
+                            System.out.println("This is the map beforehand: ");
+                            computedPathRobot1.get(j).printDegreeMap();
+                            computedPathRobot1.get(j).cleanseMyMap(j);
+                            System.out.println("This is the map afterwards: ");
+                            computedPathRobot1.get(j).printDegreeMap();
                         }
                     }
                 }
-                //myCities.remove(result);
+                myCities.remove(result);
                 return true;
             }
         }

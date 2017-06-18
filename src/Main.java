@@ -31,7 +31,8 @@ public class Main
                     RobotUtils.convertFromPixelToNode(robot.getCurrentLocation()));
             if (robot.end())
             {
-                telnet.sendSpeed(0, 0);
+                System.out.println("Stopping...");
+                telnet.sendSpeed(0,0);
                 return;
             }
             //System.out.println("shouldIPause() = " + robot.shouldIPause());
@@ -39,7 +40,7 @@ public class Main
             {
                 System.out.println("I pause");
                 telnet.sendSpeed(0, 0);
-                Thread.sleep(10000);
+                Thread.sleep(5000);
             }
             telnet.sendSpeed(2,2);
         }
