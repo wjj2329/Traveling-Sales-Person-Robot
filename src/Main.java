@@ -29,6 +29,12 @@ public class Main
             if (robot.end())
             {
                 telnet.sendSpeed(0, 0);
+                return;
+            }
+            if (robot.shouldIPause())
+            {
+                telnet.sendSpeed(0, 0);
+                Thread.sleep(1000);
             }
             telnet.sendSpeed(2,2);
         }

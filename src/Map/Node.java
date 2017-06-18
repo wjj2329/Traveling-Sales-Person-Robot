@@ -3,6 +3,8 @@ package Map;
 import RobotFunctions.RobotUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static RobotFunctions.RobotUtils.TYPE.REGULAR;
 
@@ -12,8 +14,9 @@ import static RobotFunctions.RobotUtils.TYPE.REGULAR;
  */
 public class Node
 {
-    private double degree = -1;
+    //private double degree = -1;
     private Coordinate location = new Coordinate(-1, -1);
+    private Map<Integer, Double> degreeMap;
 
     // these would be in pixels, not node coordinates
     private Coordinate topLeft;
@@ -33,9 +36,22 @@ public class Node
     {
         type = REGULAR;
         pathVisited = new ArrayList<>();
+        degreeMap = new HashMap<>();
     }
 
-
+    public void cleanseMyMap(int posInPath)
+    {
+        Map<Integer, Double> theCopy = new HashMap<>(degreeMap);
+        for (int current : degreeMap.keySet())
+        {
+            if (current <= posInPath)
+            {
+                //degreeMap.remove()
+                theCopy.remove(current);
+            }
+        }
+        degreeMap = theCopy;
+    }
 
     public void printmylist()
     {
@@ -46,12 +62,7 @@ public class Node
         }
     }
     //<editor-fold desc="Equals/HashCode - Do NOT delete">
-    /**
-     * The equals method is necessary for calling arrayList.contains().
-     *  Please do NOT delete this!
-     * @param o the object we are comparing to
-     * @return true if equal; false otherwise
-     */
+
     @Override
     public boolean equals(Object o)
     {
@@ -60,8 +71,9 @@ public class Node
 
         Node node = (Node) o;
 
-        if (Double.compare(node.degree, degree) != 0) return false;
+        if (partOfPath != node.partOfPath) return false;
         if (location != null ? !location.equals(node.location) : node.location != null) return false;
+        if (degreeMap != null ? !degreeMap.equals(node.degreeMap) : node.degreeMap != null) return false;
         if (topLeft != null ? !topLeft.equals(node.topLeft) : node.topLeft != null) return false;
         if (topRight != null ? !topRight.equals(node.topRight) : node.topRight != null) return false;
         if (bottomLeft != null ? !bottomLeft.equals(node.bottomLeft) : node.bottomLeft != null) return false;
@@ -70,22 +82,16 @@ public class Node
         return type == node.type;
     }
 
-    /**
-     * Intellij just wanted to generate this, so I said sure son
-     * @return a hash code
-     */
     @Override
     public int hashCode()
     {
-        int result;
-        long temp;
-        temp = Double.doubleToLongBits(degree);
-        result = (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (location != null ? location.hashCode() : 0);
+        int result = location != null ? location.hashCode() : 0;
+        result = 31 * result + (degreeMap != null ? degreeMap.hashCode() : 0);
         result = 31 * result + (topLeft != null ? topLeft.hashCode() : 0);
         result = 31 * result + (topRight != null ? topRight.hashCode() : 0);
         result = 31 * result + (bottomLeft != null ? bottomLeft.hashCode() : 0);
         result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
+        result = 31 * result + (partOfPath ? 1 : 0);
         result = 31 * result + (pathVisited != null ? pathVisited.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
@@ -95,27 +101,44 @@ public class Node
     public String toString()
     {
         return "Node{" +
-                "degree=" + degree +
-                ", location=" + location +
+                "location=" + location +
+                ", degreeMap=" + degreeMap +
                 ", topLeft=" + topLeft +
                 ", topRight=" + topRight +
                 ", bottomLeft=" + bottomLeft +
                 ", bottomRight=" + bottomRight +
+                ", partOfPath=" + partOfPath +
+                ", pathVisited=" + pathVisited +
                 ", type=" + type +
                 '}';
     }
 
+
     //</editor-fold>
 
     //<editor-fold desc="Getters/Setters! :D">
+
+    /**
+     * Gets the MINIMUM DEGREE.
+     */
     public double getDegree()
     {
-        return degree;
+        //return degree;
+        int min = Integer.MAX_VALUE;
+        for (int currentNumber : degreeMap.keySet())
+        {
+            if (currentNumber < min)
+            {
+                min = currentNumber;
+            }
+        }
+        return degreeMap.get(min);
     }
 
-    public void setDegree(double degree)
+    public void setDegree(int posInPath, double degree)
     {
-        this.degree = degree;
+        //this.degree = degree;
+        degreeMap.put(posInPath, degree);
     }
 
     public Coordinate getLocation()
@@ -200,6 +223,16 @@ public class Node
     public void setPartOfPath(boolean partOfPath)
     {
         this.partOfPath = partOfPath;
+    }
+
+    public Map<Integer, Double> getDegreeMap()
+    {
+        return degreeMap;
+    }
+
+    public void setDegreeMap(Map<Integer, Double> degreeMap)
+    {
+        this.degreeMap = degreeMap;
     }
 
     //</editor-fold>

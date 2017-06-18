@@ -24,6 +24,7 @@ public class TerrainMap
             for (int j = 0; j < myMap[i].length; j++)
             {
                 myMap[i][j] = new Node();
+                myMap[i][j].setLocation(new Coordinate(i, j));
             }
         }
     }

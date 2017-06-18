@@ -54,6 +54,8 @@ public class RobotUtils
     {
         double xdiff=calc.getLocation().getX()-next.getLocation().getX();
         double ydiff=calc.getLocation().getY()-next.getLocation().getY();
+        System.out.println("xDiff is: " + xdiff);
+        System.out.println("yDiff is: " + ydiff);
         if(xdiff==1&&ydiff==0)
         {
             return 180;

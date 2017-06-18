@@ -17,6 +17,39 @@ import java.util.Random;
 public class MachineVision
 {
 
+    private void initialPrint(ArrayList<City> allArUcoCards, TerrainMap mrMap, Robot rob)
+    {
+        for (int i = 0; i < mrMap.getMyMap().length; i++)
+        {
+            for (int j = 0; j < mrMap.getMyMap()[i].length; j++)
+            {
+                Node current = mrMap.getMyMap()[i][j];
+                boolean foundIt = false;
+                boolean foundRobot = false;
+                for (int k = 0; k < allArUcoCards.size(); k++)
+                {
+                    City cur = allArUcoCards.get(k);
+                    if (current.getLocation().equals(rob.getCurrentLocation()))
+                    {
+                        System.out.print("_ROBOT ");
+                        foundRobot = true;
+                    }
+                    if (current.getLocation().equals(cur.getLocation()))
+                    {
+                        System.out.print("_CITY_ ");
+                        foundIt = true;
+                        break;
+                    }
+                }
+                if (!foundIt && !foundRobot)
+                {
+                    System.out.print("______ ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
     /**
      * Wrapper function for the simulated annealing TSP
      * Use this one. The other one is only necessary as public for the Junit test.
@@ -24,28 +57,26 @@ public class MachineVision
      */
     public ArrayList<Node> computeBasicPath(ArrayList<City> allArUcoCards, TerrainMap mrMap, Robot rob)
     {
+        rob.setCurrentLocation(RobotUtils.convertFromPixelToNode(rob.getCurrentLocation()));
+        initialPrint(allArUcoCards, mrMap, rob);
         ArrayList<City> cities = computeTSP(allArUcoCards);
         ArrayList<Node> result = new ArrayList<>();
+        System.out.println("Simulated annealing obtained: " + cities.toString());
 
         // Convert robot's current location to node coordinates
-        rob.setCurrentLocation(RobotUtils.convertFromPixelToNode(rob.getCurrentLocation()));
+       // rob.setCurrentLocation(RobotUtils.convertFromPixelToNode(rob.getCurrentLocation()));
+        System.out.println("The location is " + mrMap.getMyMap()[2][2].getLocation().toString());
 
         // Boop!
+        System.out.println("Robot's current location: " + rob.getCurrentLocation().toString());
+        System.out.println("Map dimensions: " + RobotUtils.gridDimensionX + " x " + RobotUtils.gridDimensionY);
         Node robotCity = mrMap.getMyMap()[(int) Math.round(rob.getCurrentLocation().getX())]
                 [(int) Math.round(rob.getCurrentLocation().getY())];
+        //robotCity.setLocation(new Coordinate(rob.getCurrentLocation().getX(), rob.getCurrentLocation().getY()));
         result.add(robotCity);
+        System.out.println("I just added node at location " + robotCity.getLocation().toString());
         // Convert pixel coordinates to world
-        for (int p = 0; p < mrMap.getMyMap().length; p++)
-        {
-            for (int q = 0; q < mrMap.getMyMap()[p].length; q++)
-            {
-                // just grabbing a handy dandy reference to that
-                Coordinate pixelLocation = mrMap.getMyMap()[p][q].getLocation();
-                pixelLocation = RobotUtils.convertFromPixelToNode(pixelLocation);
-                // might be a bit redundant with pointers, but oh well
-                mrMap.getMyMap()[p][q].setLocation(pixelLocation);
-            }
-        }
+        cities.add(0, new City(robotCity.getLocation()));
 
         // Skip the last one, since we will be doing current to current + 1
         for (int i = 0; i < cities.size() - 1; i++)
@@ -54,41 +85,90 @@ public class MachineVision
             City city2 = cities.get(i + 1);
             // Because we already know that we're going from city1 to city2, and so on
             // location should be castable to an integer value
-            int xDiff = (int) Math.round(city1.getLocation().getX() - city2.getLocation().getX());
-            int yDiff = (int) Math.round(city1.getLocation().getY() - city2.getLocation().getY());
+            int xDiff = (int) Math.round(city2.getLocation().getX() - city1.getLocation().getX());
+            int yDiff = (int) Math.round(city2.getLocation().getY() - city1.getLocation().getY());
             Node loc = mrMap.getMyMap()[(int) Math.round(city1.getLocation().getX())]
                     [(int) Math.round(city1.getLocation().getY())];
+            System.out.println("xDiff: " + xDiff);
+            System.out.println("yDiff: " + yDiff);
             // This is so sketchy
-            if (result.contains(loc))
+            //if (result.contains(loc) && !loc.equals(robotCity))
             {
-                continue;
+              //  continue;
             }
-            result.add(loc);
+            //loc.setLocation(new Coordinate(city1.getLocation().getX(), city1.getLocation().getY()));
+            //result.add(loc);
+
+            System.out.println("I start at " + city1.getLocation().toString());
+            System.out.println("I need to get to " + city2.getLocation().toString());
 
             // Even though we aren't checking for out of bounds, we shouldn't need to check
             // If it goes OOB, we jacked something up.
-            for (int a = 1; a <= xDiff; a++)
+            if (xDiff < 0)
             {
-                Node res = mrMap.getMyMap()[(int) Math.round(city1.getLocation().getX()) + a]
-                        [(int) Math.round(city1.getLocation().getY())];
-                result.add(res);
+                for (int a = -1; a >=xDiff; a--)
+                {
+                    City poo = new City(new Coordinate(city1.getLocation().getX() + a,
+                            city1.getLocation().getY()));
+                    System.out.println("xDiff negative: Need go to coordinate " + poo.getLocation().toString());
+                    Node res = mrMap.getMyMap()[(int) Math.round(city1.getLocation().getX()) + a]
+                            [(int) Math.round(city1.getLocation().getY())];
+                    //res.setLocation(new Coordinate(city1.getLocation().getX() + a, city1.getLocation().getY()));
+                    result.add(res);
+                }
             }
-            for (int b = 1; b <= yDiff; b++)
+            else if (xDiff > 0)
             {
-                Node res = mrMap.getMyMap()[(int) Math.round(city1.getLocation().getX())]
-                        [(int) Math.round(city1.getLocation().getY()) + b];
-                result.add(res);
+                for (int a = 1; a <= xDiff; a++)
+                {
+                    City poo = new City(new Coordinate(city1.getLocation().getX() + a,
+                            city1.getLocation().getY()));
+                    System.out.println("xDiff positive: Need go to coordinate " + poo.getLocation().toString());
+                    Node res = mrMap.getMyMap()[(int) Math.round(city1.getLocation().getX()) + a]
+                            [(int) Math.round(city1.getLocation().getY())];
+                    //res.setLocation(new Coordinate(city1.getLocation().getX() + a, city1.getLocation().getY()));
+                    result.add(res);
+                }
+            }
+            if (yDiff < 0)
+            {
+                for (int b = -1; b >= yDiff; b--)
+                {
+                    City poo = new City(new Coordinate(city1.getLocation().getX(),
+                            city1.getLocation().getY() + b));
+                    System.out.println("yDiff negative: Need go to coordinate " + poo.getLocation().toString());
+                    Node res = mrMap.getMyMap()[(int) Math.round(city2.getLocation().getX())]
+                            [(int) Math.round(city1.getLocation().getY()) + b];
+                    //res.setLocation(new Coordinate(city1.getLocation().getX(), city1.getLocation().getY() + b));
+                    result.add(res);
+                }
+            }
+            else
+            {
+                for (int b = 1; b <=yDiff; b++)
+                {
+                    City poo = new City(new Coordinate(city1.getLocation().getX(),
+                            city1.getLocation().getY() + b));
+                    System.out.println("yDiff positive: Need go to coordinate " + poo.getLocation().toString());
+                    Node res = mrMap.getMyMap()[(int) Math.round(city2.getLocation().getX())]
+                            [(int) Math.round(city1.getLocation().getY()) + b];
+                    //res.setLocation(new Coordinate(city1.getLocation().getX(), city1.getLocation().getY() + b));
+                    result.add(res);
+                }
             }
 
             // Is this cat necessary? Or is it already added by definition?
             Node loc2 = mrMap.getMyMap()[(int) Math.round(city2.getLocation().getX())]
                     [(int) Math.round(city2.getLocation().getY())];
+            //loc2.setLocation(new Coordinate(city2.getLocation().getX(), city2.getLocation().getY()));
             if (!result.contains(loc2))
             {
                 result.add(loc2);
             }
         }
+        System.out.println("path is " + result.toString());
         calculateDegrees(result);
+        print(rob, result);
         return result;
     }
 
@@ -101,11 +181,13 @@ public class MachineVision
         {
             if(i < path.size() - 1)
             {
-                path.get(i).setDegree(RobotUtils.calculateAngle(path.get(i), path.get(i + 1)));
+                path.get(i).setDegree(i, RobotUtils.calculateAngle(path.get(i), path.get(i + 1)));
             }
             else
             {
-                path.get(i).setDegree(path.get(i - 1).getDegree());
+                // path should be size 3. -_-
+                System.out.println("i is " + i + " and path.size is " + path.size());
+                path.get(i).setDegree(i, path.get(i - 1).getDegree());
             }
         }
     }
@@ -238,5 +320,45 @@ public class MachineVision
     public ArrayList<City> computePrettyTSP()
     {
         return null;
+    }
+
+    public void print(Robot rob, ArrayList<Node> result)
+    {
+        TerrainMap terrainMap = rob.getMap();
+        System.out.println("Result's size is " + result.size());
+        System.out.println("What's in result? " + result.toString());
+        for (int i = 0; i < terrainMap.getMyMap().length; i++)
+        {
+            for (int j = 0; j < terrainMap.getMyMap()[i].length; j++)
+            {
+                Node current = terrainMap.getMyMap()[i][j];
+                if (result.contains(current))
+                {
+                    //System.out.println("Current: " + current.toString());
+                    //System.out.print("_PATH_" + result.indexOf(current) + "  ");
+                    System.out.print("PATH__");
+                    printMatchingLocations(result, current);
+                }
+                else
+                {
+                    System.out.print("_______  ");
+                }
+            }
+            System.out.println();
+        }
+        System.exit(0);
+    }
+    private void printMatchingLocations(ArrayList<Node> result, Node current)
+    {
+        ArrayList<Integer> whereIMatch = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++)
+        {
+            if (result.get(i).equals(current))
+            {
+                whereIMatch.add(i);
+                System.out.print(i + "_");
+            }
+        }
+        System.out.print(" ");
     }
 }

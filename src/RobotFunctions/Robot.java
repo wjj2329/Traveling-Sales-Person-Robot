@@ -32,6 +32,9 @@ public class Robot
     public Robot()
     {
         myCities = new ArrayList<>();
+        map = new TerrainMap();
+        computedPathRobot1 = new ArrayList<>();
+        vision = new MachineVision();
     }
 
     public void calculateTerrainMap(ArrayList<City> cities)
@@ -45,7 +48,7 @@ public class Robot
                 for (int q = 0; q < map.getMyMap()[p].length; q++)
                 {
                     Node current = map.getMyMap()[p][q];
-                    current.setLocation(new Coordinate(p, q));
+                    //current.setLocation(new Coordinate(p, q));
                     // Set type to obstacle here if we end up adding obstacles
                 }
             }
@@ -131,6 +134,19 @@ public class Robot
             Thread.sleep(1200);
             t.sendSpeed(0, 0);
         }
+    }
+
+    public boolean shouldIPause()
+    {
+        for (int i = 0; i < computedPathRobot1.size(); i++)
+        {
+            if (computedPathRobot1.get(i).getLocation().equals(currentLocation))
+            {
+                computedPathRobot1.get(i).cleanseMyMap(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean end()

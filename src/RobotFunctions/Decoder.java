@@ -53,10 +53,10 @@ public class Decoder
                 City newCity = new City(centerCoord, corner1Coordinate, corner2Coordinate,
                         corner3Coordinate, corner4Coordinate, res,
                         RobotUtils.distance(centerCoord, corner1Coordinate), "city");
+                newCity.setLocation(RobotUtils.convertFromPixelToNode(centerCoord));
                 //obstacle
                 newCity.setId(Integer.parseInt(key));
                 cities.add(newCity);
-
             }
 
         }
