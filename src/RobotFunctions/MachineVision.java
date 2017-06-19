@@ -91,11 +91,6 @@ public class MachineVision
                     [(int) Math.round(city1.getLocation().getY())];
             System.out.println("xDiff: " + xDiff);
             System.out.println("yDiff: " + yDiff);
-            // This is so sketchy
-            //if (result.contains(loc) && !loc.equals(robotCity))
-            {
-              //  continue;
-            }
             //loc.setLocation(new Coordinate(city1.getLocation().getX(), city1.getLocation().getY()));
             //result.add(loc);
 
@@ -322,6 +317,7 @@ public class MachineVision
         return null;
     }
 
+    // Rob the robot
     public void print(Robot rob, ArrayList<Node> result)
     {
         TerrainMap terrainMap = rob.getMap();

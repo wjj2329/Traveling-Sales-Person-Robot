@@ -29,10 +29,9 @@ public class Telnet
 
     }
     public void sendStuffToOtherRobot(String json) throws IOException {
-        pingSocket =new Socket("localhost", 8080);
+        pingSocket =new Socket("192.168.0.106", 7777);
         myWriter =new PrintWriter(pingSocket.getOutputStream(), true);
         myWriter.println(json);
-
         //get stuff from myReader .readline()
 
         pingSocket.close();

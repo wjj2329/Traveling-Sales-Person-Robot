@@ -110,6 +110,7 @@ public class Robot
             {
                 t.sendSpeed(2, -2);
                 String responseFromServer = t.sendWhere();
+                //t.sendStuffToOtherRobot(responseFromServer);
                 if (responseFromServer.equals("None") || responseFromServer.equals("") ||
                         responseFromServer.equals("\n"))
                 {
@@ -222,5 +223,16 @@ public class Robot
     {
         this.orientation = orientation;
     }
+
+    public ArrayList<City> getMyCities()
+    {
+        return myCities;
+    }
+
+    public void setMyCities(ArrayList<City> myCities)
+    {
+        this.myCities = myCities;
+    }
+
     //</editor-fold>
 }
